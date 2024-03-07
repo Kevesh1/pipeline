@@ -1,0 +1,3 @@
+/home/keivan/Documents/Kandidat/pipeline/CMakeFiles/pipeline.dir
+/home/keivan/Documents/Kandidat/pipeline/CMakeFiles/edit_cache.dir
+/home/keivan/Documents/Kandidat/pipeline/CMakeFiles/rebuild_cache.dir

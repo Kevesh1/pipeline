@@ -1,0 +1,5 @@
+0.43 m/s = fungerar bra när det inte är för ljust i mitten på närmsta kameran
+0.47 m/s = liknande som ovan
+0.52 m/s = allmänt dålig, tappar identifiering ofta
+0.57 = väldigt dålig
+0.63 m/s = kaos
