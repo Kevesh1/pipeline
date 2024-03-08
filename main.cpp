@@ -5,17 +5,16 @@
 #include <atomic>
 #include <chrono>
 #include <opencv2/opencv.hpp>
-#include <apriltag/apriltag.h>
-#include <apriltag/tag36h11.h>
+
+extern "C" {
+#include "apriltag/apriltag.h"
+#include "apriltag/tag36h11.h"
+}
 
 #define buff_max 25
 #define mod %
 
 
-struct item {
-    int number;
-    cv::VideoCapture myImage;
-};
 
 cv::Mat buffer[buff_max];
 
@@ -24,8 +23,7 @@ std::atomic<int> full_index(0);
 std::mutex mtx;
 
 cv::VideoCapture initCamera(){
-    cv::namedWindow("Video Player");
-    cv::VideoCapture cap(0);
+    cv::VideoCapture cap(2);
     if (!cap.isOpened()){
         std::cout << "No video stream detected" << std::endl;
         std::system("Pause");
@@ -42,12 +40,7 @@ cv::Mat getImage(cv::VideoCapture cap){
 
 
 void producer() {
-    std::vector<item> items;
-    for(int i = 0; i<5;i++){
-        item new_item;
-        new_item.number = i;
-        items.push_back(new_item);
-    }
+   
     cv::Mat image;
     cv::VideoCapture cap = initCamera();
     while(true){
@@ -55,7 +48,7 @@ void producer() {
         //auto start_time = std::chrono::high_resolution_clock::now();
         image = getImage(cap);
         cv::Mat converted_img;
-        //cv::cvtColor(img, converted_img, cv::COLOR_RGB2BGR);
+        cv::cvtColor(image, converted_img, cv::COLOR_RGB2BGR);
         if (image.empty()){
             break;
         }
@@ -69,15 +62,13 @@ void producer() {
             //buffer full
             //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
-        cv::imshow("Video Player", image);
+        //cv::imshow("Video Player", converted_img);
         mtx.lock();
-        //if (!items.empty()){
-        //   item item_to_send = items.back();
-        //    items.pop_back();
-        //    buffer[free_index] = item_to_send;
-        //    free_index = (free_index + 1) mod buff_max;
-        //}
-        buffer[free_index] = image;
+
+        buffer[free_index] = converted_img;
+        free_index = (free_index + 1) mod buff_max;
+        std::cout << "sending image" << std::endl;
+        std::cout << free_index << std::endl;
         mtx.unlock();
         char c = (char)cv::waitKey(1);
         if (c==27){
@@ -97,7 +88,7 @@ void consumer() {
     apriltag_detector_add_family(detector, apriltag_family);
     while(true){
         while(free_index == full_index){
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            //std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
         mtx.lock();
         consumed_image = buffer[full_index];
@@ -119,14 +110,41 @@ void consumer() {
         for (int i = 0; i < zarray_size(detections); i++){
             apriltag_detection *detection;
             zarray_get(detections, i, &detection);
+            line(consumed_image, cv::Point(detection->p[0][0], detection->p[0][1]),
+                     cv::Point(detection->p[1][0], detection->p[1][1]),
+                     cv::Scalar(0, 0xff, 0), 2);
+            line(consumed_image, cv::Point(detection->p[0][0], detection->p[0][1]),
+                     cv::Point(detection->p[3][0], detection->p[3][1]),
+                     cv::Scalar(0, 0, 0xff), 2);
+            line(consumed_image, cv::Point(detection->p[1][0], detection->p[1][1]),
+                     cv::Point(detection->p[2][0], detection->p[2][1]),
+                     cv::Scalar(0xff, 0, 0), 2);
+            line(consumed_image, cv::Point(detection->p[2][0], detection->p[2][1]),
+                     cv::Point(detection->p[3][0], detection->p[3][1]),
+                     cv::Scalar(0xff, 0, 0), 2);
+
+            std::stringstream ss;
+            ss << detection->id;
+            std::string text = ss.str();
+            int fontface = cv::FONT_HERSHEY_SCRIPT_SIMPLEX;
+            double fontscale = 1.0;
+            int baseline;
+            cv::Size textsize = cv::getTextSize(text, fontface, fontscale, 2,
+                                            &baseline);
+            cv::putText(consumed_image, text, cv::Point(detection->c[0]-textsize.width/2,
+                                       detection->c[1]+textsize.height/2),
+                    fontface, fontscale, cv::Scalar(0xff, 0x99, 0), 2);
+            std::cout << "detection" << std::endl;
             std::cout << detection << std::endl;
         }
         apriltag_detections_destroy(detections);
+        cv::imshow("Tag Detections", consumed_image);
+
 
         //send coordinates here?
         //...
         //std::cout << "The value: " << consumed_item.number << "is now: " << consumed_item.number *2 << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     apriltag_detector_destroy(detector);
     tag36h11_destroy(apriltag_family);

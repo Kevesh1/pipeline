@@ -233,6 +233,9 @@ pipeline_SOURCE_DIR:STATIC=/home/keivan/Documents/Kandidat/pipeline
 //Path to a library.
 pkgcfg_lib_APRILTAGS_apriltag:FILEPATH=/usr/local/lib/libapriltag.so
 
+//Path to a library.
+pkgcfg_lib_AprilTags_apriltag:FILEPATH=/usr/local/lib/libapriltag.so
+
 //Value Computed by CMake
 test_BINARY_DIR:STATIC=/home/keivan/Documents/Kandidat/pipeline
 
@@ -282,6 +285,49 @@ APRILTAGS_apriltag_INCLUDEDIR:INTERNAL=
 APRILTAGS_apriltag_LIBDIR:INTERNAL=
 APRILTAGS_apriltag_PREFIX:INTERNAL=
 APRILTAGS_apriltag_VERSION:INTERNAL=
+AprilTags_AprilTag_INCLUDEDIR:INTERNAL=
+AprilTags_AprilTag_LIBDIR:INTERNAL=
+AprilTags_AprilTag_PREFIX:INTERNAL=
+AprilTags_AprilTag_VERSION:INTERNAL=
+AprilTags_AprilTags_INCLUDEDIR:INTERNAL=
+AprilTags_AprilTags_LIBDIR:INTERNAL=
+AprilTags_AprilTags_PREFIX:INTERNAL=
+AprilTags_AprilTags_VERSION:INTERNAL=
+AprilTags_CFLAGS:INTERNAL=-I/usr/local/include
+AprilTags_CFLAGS_I:INTERNAL=
+AprilTags_CFLAGS_OTHER:INTERNAL=
+AprilTags_FOUND:INTERNAL=1
+AprilTags_INCLUDEDIR:INTERNAL=/usr/local/include
+AprilTags_INCLUDE_DIRS:INTERNAL=/usr/local/include
+AprilTags_LDFLAGS:INTERNAL=-L/usr/local/lib;-lapriltag
+AprilTags_LDFLAGS_OTHER:INTERNAL=
+AprilTags_LIBDIR:INTERNAL=/usr/local/lib
+AprilTags_LIBRARIES:INTERNAL=apriltag
+AprilTags_LIBRARY_DIRS:INTERNAL=/usr/local/lib
+AprilTags_LIBS:INTERNAL=
+AprilTags_LIBS_L:INTERNAL=
+AprilTags_LIBS_OTHER:INTERNAL=
+AprilTags_LIBS_PATHS:INTERNAL=
+AprilTags_MODULE_NAME:INTERNAL=apriltag
+AprilTags_PREFIX:INTERNAL=/usr/local
+AprilTags_STATIC_CFLAGS:INTERNAL=-I/usr/local/include
+AprilTags_STATIC_CFLAGS_I:INTERNAL=
+AprilTags_STATIC_CFLAGS_OTHER:INTERNAL=
+AprilTags_STATIC_INCLUDE_DIRS:INTERNAL=/usr/local/include
+AprilTags_STATIC_LDFLAGS:INTERNAL=-L/usr/local/lib;-lapriltag
+AprilTags_STATIC_LDFLAGS_OTHER:INTERNAL=
+AprilTags_STATIC_LIBDIR:INTERNAL=
+AprilTags_STATIC_LIBRARIES:INTERNAL=apriltag
+AprilTags_STATIC_LIBRARY_DIRS:INTERNAL=/usr/local/lib
+AprilTags_STATIC_LIBS:INTERNAL=
+AprilTags_STATIC_LIBS_L:INTERNAL=
+AprilTags_STATIC_LIBS_OTHER:INTERNAL=
+AprilTags_STATIC_LIBS_PATHS:INTERNAL=
+AprilTags_VERSION:INTERNAL=3.3.0
+AprilTags_apriltag_INCLUDEDIR:INTERNAL=
+AprilTags_apriltag_LIBDIR:INTERNAL=
+AprilTags_apriltag_PREFIX:INTERNAL=
+AprilTags_apriltag_VERSION:INTERNAL=
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -434,7 +480,10 @@ PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 __pkg_config_checked_APRILTAGS:INTERNAL=1
+__pkg_config_checked_AprilTags:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_APRILTAGS_apriltag
 pkgcfg_lib_APRILTAGS_apriltag-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_AprilTags_apriltag
+pkgcfg_lib_AprilTags_apriltag-ADVANCED:INTERNAL=1
 prefix_result:INTERNAL=/usr/local/lib
 
